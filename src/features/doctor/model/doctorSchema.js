@@ -21,6 +21,7 @@ export const DoctorSchema = mongoose.Schema({
   },
   registerID: {
     type: String,
+    unique: true,
     required: [true, "Register Id is required"],
   },
 });

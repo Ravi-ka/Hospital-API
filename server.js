@@ -17,6 +17,7 @@ server.get("/", (req, res) => {
 });
 // Routes
 server.use("/api/v1/doctors", DoctorRoutes);
+// server.use("/api/v1/")
 
 server.use(errorHandlerMiddleware);
 
