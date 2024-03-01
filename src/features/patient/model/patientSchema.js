@@ -11,7 +11,6 @@ export const PatientSchema = mongoose.Schema({
   },
   status: {
     type: String,
-    required: true,
     enum: [
       "Negative",
       "Traveled-Quarantine",
@@ -21,7 +20,11 @@ export const PatientSchema = mongoose.Schema({
   },
   contactNumber: {
     type: Number,
+    unique: true,
+    maxNumber: [10, "Mobile number can't exceed 10 digits"],
     required: [true, "Contact number is required"],
   },
-  date: date,
+  date: Date,
 });
+
+export const PatientModel = mongoose.model("Patients", PatientSchema);
