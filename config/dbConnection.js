@@ -8,3 +8,5 @@ export const connectToDatabase = async () => {
     console.log("Error while connecting to MongoDB : " + error);
   }
 };
+
+// Mongoose DB connection

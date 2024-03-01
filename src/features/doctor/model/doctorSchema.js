@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// mongoose schema for /doctors API path
 export const DoctorSchema = mongoose.Schema({
   doctorName: {
     type: String,
@@ -26,4 +27,5 @@ export const DoctorSchema = mongoose.Schema({
   },
 });
 
+// doctor mongoose model
 export const DoctorModel = mongoose.model("Doctor", DoctorSchema);

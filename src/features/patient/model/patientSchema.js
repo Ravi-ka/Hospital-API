@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+//mongoose Patient schema
 export const PatientSchema = mongoose.Schema({
   patientName: {
     type: String,
@@ -9,22 +10,17 @@ export const PatientSchema = mongoose.Schema({
     type: String,
     unique: true,
   },
-  status: {
-    type: String,
-    enum: [
-      "Negative",
-      "Traveled-Quarantine",
-      "Symptoms-Quarantine",
-      "Positive-Admit",
-    ],
-  },
   contactNumber: {
     type: Number,
     unique: true,
     maxNumber: [10, "Mobile number can't exceed 10 digits"],
     required: [true, "Contact number is required"],
   },
-  date: Date,
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-export const PatientModel = mongoose.model("Patients", PatientSchema);
+// Patient mongoose model
+export const PatientModel = mongoose.model("Patient", PatientSchema);

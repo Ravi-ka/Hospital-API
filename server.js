@@ -6,21 +6,27 @@ import { DoctorRoutes } from "./src/features/doctor/routes/doctorRoutes.js";
 import { errorHandlerMiddleware } from "./middlewares/errorHandlerMiddleware.js";
 import { PatientRoutes } from "./src/features/patient/routes/patientRoutes.js";
 import { JwtAuth } from "./middlewares/jwtAuth.js";
+import { ReportRoutes } from "./src/features/report/routes/reportRoutes.js";
 
 const server = express();
 server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 
+// Path setup for .env
 const configPath = path.resolve("config", "uat.env");
 dotenv.config({ path: configPath });
 
+// default path
 server.get("/", (req, res) => {
   res.status(200).send("Hospital API");
 });
+
 // Routes
 server.use("/api/v1/doctors", DoctorRoutes);
 server.use("/api/v1/patients", JwtAuth, PatientRoutes);
+server.use("/api/v1/reports", JwtAuth, ReportRoutes);
 
+// Error handler for global usage
 server.use(errorHandlerMiddleware);
 
 server.listen(process.env.PORT, (err) => {

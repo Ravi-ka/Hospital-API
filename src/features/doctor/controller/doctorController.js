@@ -3,6 +3,7 @@ import { checkUser, createNewAccountRepo } from "../model/doctorRepository.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+// new account creation for doctors
 export const createNewAccount = async (req, res, next) => {
   try {
     const { doctorName, doctorEmail, doctorPassword, registerID } = req.body;
@@ -27,6 +28,7 @@ export const createNewAccount = async (req, res, next) => {
   }
 };
 
+// method for doctors login
 export const loginController = async (req, res, next) => {
   try {
     const { email, password } = req.body;

@@ -14,3 +14,5 @@ export const JwtAuth = async (req, res, next) => {
     console.log("JWT Auth Error: " + error);
   }
 };
+
+// JWT Authentication code

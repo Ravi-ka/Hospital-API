@@ -8,3 +8,5 @@ export const DoctorRoutes = express.Router();
 
 DoctorRoutes.post("/register", createNewAccount);
 DoctorRoutes.post("/login", loginController);
+
+// Doctor routes
