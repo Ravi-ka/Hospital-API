@@ -1,0 +1,240 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "2.0.3",
+    "description": "This API specification provides a set of endpoints for managing hospital operations including patient management, medical records, and more. It offers a comprehensive solution for hospitals to streamline their processes, enhance patient care, and improve operational efficiency.\n`Documentation > In Progress`",
+    "title": "Hospital API",
+    "contact": {
+      "email": "ka.ravisankar@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "JWT": {
+        "in": "header",
+        "name": "Authorization",
+        "type": "apiKey",
+        "description": "Use the /login API to generate the JWT Token"
+      }
+    }
+  },
+  "paths": {
+    "/api/v1/doctors/register": {
+      "post": {
+        "tags": ["Doctors API"],
+        "summary": "Register new doctor",
+        "description": "Create a new account for the doctor. Account is very important to access the other endpoints.",
+
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "doctorName": {
+                    "type": "string"
+                  },
+                  "doctorEmail": {
+                    "type": "string"
+                  },
+                  "doctorPassword": {
+                    "type": "string"
+                  },
+                  "registerID": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/doctors/login": {
+      "post": {
+        "tags": ["Doctors API"],
+        "summary": "Login",
+        "description": "Doctor needs to login. After successful login, gets a JWT token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/patients/register": {
+      "post": {
+        "tags": ["Patient API"],
+        "summary": "Create new account for patient",
+        "description": "Create new account for patient. Need the JWT token to access this API. Please login to get the token.",
+        "security": [{ "JWT": {} }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "patientName": {
+                    "type": "string"
+                  },
+                  "patientEmail": {
+                    "type": "string"
+                  },
+                  "contactNumber": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+
+    "/api/v1/patients/{id}/create_report": {
+      "post": {
+        "tags": ["Patient API"],
+        "summary": "create report",
+        "description": "Create a new report of the patient",
+        "security": [{ "JWT": {} }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique Id of the patient",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "height": {
+                    "type": "string"
+                  },
+                  "weight": {
+                    "type": "string"
+                  },
+                  "bloodGroup": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "Negative",
+                      "Traveled-Quarantine",
+                      "Symptoms-Quarantine",
+                      "Positive-Admit"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Incorrect Credentials"
+          }
+        }
+      }
+    },
+    "/api/v1/patients/{id}/all_reports": {
+      "get": {
+        "tags": ["Patient API"],
+        "summary": "All reports of the patient",
+        "description": "Get all reports of the patient",
+        "security": [{ "JWT": {} }],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Unique Id of the patient"
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Incorrect Credentials"
+          }
+        }
+      }
+    },
+    "/api/v1/reports/{status}": {
+      "get": {
+        "tags": ["Reports API"],
+        "summary": "Report by status",
+        "description": "Get reports based on the status type",
+        "security": [{ "JWT": {} }],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "path",
+            "required": true,
+            "description": "Unique Id of the patient"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Incorrect Credentials"
+          }
+        }
+      }
+    }
+  }
+}
