@@ -46,6 +46,11 @@ Make sure to set the following environment variables in your `.env` file:
 - `JWT_SECRET`: Secret key for session management
 - `JWT_EXPIRE` : update the expire time for the JWT token
 
+## Swagger
+  
+  ![image](https://github.com/Ravi-ka/Hospital-API/assets/52249806/69308544-6dfe-4ed9-a9d0-a99cc67f747a)
+
+
 ## Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
