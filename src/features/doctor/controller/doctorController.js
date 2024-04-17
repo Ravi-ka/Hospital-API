@@ -2,6 +2,7 @@ import { ErrorHandler } from "../../../../utils/errorHandler.js";
 import { checkUser, createNewAccountRepo } from "../model/doctorRepository.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { logger } from "../../../../utils/logger.js";
 
 // new account creation for doctors
 export const createNewAccount = async (req, res, next) => {
@@ -34,10 +35,16 @@ export const loginController = async (req, res, next) => {
     const { email, password } = req.body;
     const user = await checkUser(email);
     if (!user) {
+      logger.error(
+        `statusCode:404 - error: Enter a valid email address - requestEmail:${email} - path:${req.url}`
+      );
       return next(new ErrorHandler(404, "Enter a valid email address"));
     }
     const isValidPassword = await bcrypt.compare(password, user.doctorPassword);
     if (!isValidPassword) {
+      logger.error(
+        `statusCode:404 - error: Incorrect password - requestEmail:${email} - path:${req.url}`
+      );
       return next(new ErrorHandler(404, "Enter the correct password"));
     }
     const payload = jwt.sign(
@@ -48,12 +55,16 @@ export const loginController = async (req, res, next) => {
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRE }
     );
+    logger.info(
+      `method:${req.method} - statusCode:200 - Login successful - email:${email} `
+    );
     return res.status(200).json({
       result: "success",
       message: "Login successful",
       response: payload,
     });
   } catch (error) {
+    logger.error(error);
     return next(new ErrorHandler(500, error));
   }
 };

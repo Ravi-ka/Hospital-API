@@ -9,8 +9,7 @@ import { errorHandlerMiddleware } from "./middlewares/errorHandlerMiddleware.js"
 import { PatientRoutes } from "./src/features/patient/routes/patientRoutes.js";
 import { JwtAuth } from "./middlewares/jwtAuth.js";
 import { ReportRoutes } from "./src/features/report/routes/reportRoutes.js";
-import { assert } from "console";
-import { type } from "os";
+import { logger } from "./utils/logger.js";
 
 const server = express();
 server.use(express.urlencoded({ extended: true }));
