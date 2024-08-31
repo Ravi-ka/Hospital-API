@@ -1,5 +1,9 @@
 import { ErrorHandler } from "../../../../utils/errorHandler.js";
-import { checkUser, createNewAccountRepo } from "../model/doctorRepository.js";
+import {
+  checkUser,
+  createNewAccountRepo,
+  getDetailsOfPatientsRepo,
+} from "../model/doctorRepository.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { logger } from "../../../../utils/logger.js";
@@ -8,6 +12,10 @@ import { logger } from "../../../../utils/logger.js";
 export const createNewAccount = async (req, res, next) => {
   try {
     const { doctorName, doctorEmail, doctorPassword, registerID } = req.body;
+    const checkEmail = await checkUser(doctorEmail);
+    if (checkEmail) {
+      return res.status(400).json({ message: "User already registered" });
+    }
     const hashPassword = await bcrypt.hash(doctorPassword, 10);
     const newUser = {
       doctorName,
@@ -66,5 +74,15 @@ export const loginController = async (req, res, next) => {
   } catch (error) {
     logger.error(error);
     return next(new ErrorHandler(500, error));
+  }
+};
+
+export const getDetailsOfPatients = async (req, res) => {
+  try {
+    const doctorID = req.params.id;
+    const data = await getDetailsOfPatientsRepo(doctorID);
+    return res.status(200).json({ response: data });
+  } catch (error) {
+    console.log(error);
   }
 };

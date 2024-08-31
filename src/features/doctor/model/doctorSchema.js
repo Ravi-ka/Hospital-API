@@ -28,4 +28,4 @@ export const DoctorSchema = mongoose.Schema({
 });
 
 // doctor mongoose model
-export const DoctorModel = mongoose.model("Doctor", DoctorSchema);
+export const DoctorModel = mongoose.model("doctors", DoctorSchema);

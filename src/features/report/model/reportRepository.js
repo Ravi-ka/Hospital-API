@@ -18,5 +18,6 @@ export const getAllReportsByStatus = async (status) => {
   const report = await ReportModel.find({ status: status })
     .populate("doctorDetail", "-doctorPassword")
     .populate("patientDetail");
+
   return report;
 };

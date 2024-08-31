@@ -6,6 +6,7 @@ export const getReportByStatus = async (req, res, next) => {
   try {
     const status = req.params.status;
     const reports = await getAllReportsByStatus(status);
+    console.log(reports);
     return res.status(200).json({
       status: "success",
       message: `Displaying the reports by ${status}`,

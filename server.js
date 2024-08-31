@@ -2,6 +2,9 @@ import express from "express";
 import path from "path";
 import dotenv from "dotenv";
 import swagger from "swagger-ui-express";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+
 import apiDocs from "./swagger.json" assert { type: "json" };
 import { connectToDatabase } from "./config/dbConnection.js";
 import { DoctorRoutes } from "./src/features/doctor/routes/doctorRoutes.js";
@@ -10,10 +13,23 @@ import { PatientRoutes } from "./src/features/patient/routes/patientRoutes.js";
 import { JwtAuth } from "./middlewares/jwtAuth.js";
 import { ReportRoutes } from "./src/features/report/routes/reportRoutes.js";
 import { logger } from "./utils/logger.js";
+import { limiter } from "./middlewares/rateLimiter.js";
 
-const server = express();
+export const server = express();
 server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
+
+// Rate Limiting
+server.use(limiter); // If the limit is exceeded, it will throw an 429 error
+
+// Cookie Parser
+server.use(cookieParser());
+
+// CORS policy configuration
+const corsOptions = {
+  origin: ["*"],
+};
+server.use(cors(corsOptions));
 
 // Path setup for .env
 const configPath = path.resolve("config", "uat.env");

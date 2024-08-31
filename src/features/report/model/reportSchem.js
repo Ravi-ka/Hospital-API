@@ -4,11 +4,11 @@ import mongoose from "mongoose";
 const ReportSchema = mongoose.Schema({
   doctorDetail: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Doctor",
+    ref: "doctors",
   },
   patientDetail: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Patient",
+    ref: "patients",
   },
   date: {
     type: Date,
